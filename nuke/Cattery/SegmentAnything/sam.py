@@ -6,6 +6,7 @@ SAM_TABLE_TOOLTIP = "<b>tracks</b><br>sam"
 
 
 def find_widget_by_tooltip(tooltip):
+    """Retrieve a QWidget by its text Tooltip"""
     stack = QtWidgets.QApplication.instance().allWidgets()
     while stack:
         widget = stack.pop()
@@ -14,13 +15,12 @@ def find_widget_by_tooltip(tooltip):
 
 
 def find_widget_by_text(text):
+    """Retrieve a QLineEdit by its text value"""
     text = str(text)
-    stack = QtWidgets.QApplication.instance().allWidgets()
-    stack = [widget for widget in stack if isinstance(widget, QtWidgets.QLineEdit)]
-    while stack:
-        widget = stack.pop()
-        if widget.text() == text:
-            return widget
+    for widget in QtWidgets.QApplication.topLevelWidgets():
+        for line_edit in widget.findChildren(QtWidgets.QLineEdit):
+            if line_edit.text() == text:
+                return line_edit.window()
 
 
 def get_widget_from_node(node_name: str) -> QtOpenGL.QGLWidget:
@@ -32,19 +32,13 @@ def get_widget_from_node(node_name: str) -> QtOpenGL.QGLWidget:
             return widget
 
 
-counter = 0
-
-
 def hide_columns():
-    # counter += 1
     table_widget = find_widget_by_tooltip(SAM_TABLE_TOOLTIP)
     table_view = table_widget.findChild(QtWidgets.QTableView)
 
-    table_view.setColumnHidden(4, True)
-    table_view.setColumnHidden(5, True)
-    table_view.setColumnHidden(6, True)
-    table_view.setColumnHidden(7, True)
-    table_view.setColumnHidden(9, True)
+    # Hide columns 'offset', 'T, 'R' and 'error'
+    for i in (4, 5, 6, 7, 9):
+        table_view.setColumnHidden(i, True)
 
 
 def sam():
@@ -57,16 +51,15 @@ def sam():
         # Hide the tracker node widget
         unique_id = nuke.thisNode().knob("unique_id").value()
         unique_id = int(unique_id + 1)
-        unique_id_widget = find_widget_by_text(unique_id)
-        tracker_window = unique_id_widget.window()
-        tracker_window.hide()
+        tracker_window = find_widget_by_text(unique_id)
+        if tracker_window:
+            tracker_window.hide()
 
         table_widget = find_widget_by_tooltip(SAM_TABLE_TOOLTIP)
         table_view = table_widget.findChild(QtWidgets.QTableView)
         model = table_view.model()
 
-        # Hide the unneeded columns, also make sure it
-        # stays hidden after any refresh.
+        # Hide the unneeded columns; make sure it stays hidden on any refresh.
         hide_columns()
         model.modelAboutToBeReset.connect(lambda: hide_columns())
         model.modelReset.connect(lambda: hide_columns())
@@ -88,6 +81,3 @@ def sam():
 
         # Close the tracker node panel
         nuke.toNode(f"{node_name}.Tracker1").hideControlPanel()
-
-
-# nuke.toNode("Segment_Anything")["knobChanged"].setValue("sam.sam()")
