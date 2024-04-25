@@ -19,7 +19,7 @@ With this implementation, you gain access to cutting-edge object segmentation ca
 ## Features
 
 - **Intuitive interface** for selecting objects using Nuke's familiar Tracker node.
-- **Three levels of quality**, allowing users to balance precision and GPU memory usage.
+- **Fast mode**, allowing users to balance precision and GPU memory usage.
 - **Preprocessing stage** with an encoded matte for reusing and speeding up multiple object selections.
 - **Efficient memory usage** - the high-quality model fits on most 8GB graphics cards, while the low-quality model is compatible with 4GB cards.
 - **Nuke 13 compatibility**. Note: **Preprocessing is recommended** for an optimal experience.
@@ -51,6 +51,40 @@ import nuke
 toolbar = nuke.menu("Nodes")
 toolbar.addCommand('Cattery/Optical Flow/SegmentAnything', 'nuke.createNode("SegmentAnything")', icon="SAM.png")
 ```
+
+## Compiling the Model
+
+To retrain or modify the model for use with **Nuke's CatFileCreator**, you'll need to convert it into the PyTorch format `.pt`. Below are the primary methods to achieve this:
+
+### Cloud-Based Compilation (Recommended for Nuke 14+)
+
+**Google Colaboratory** offers a free, cloud-based development environment ideal for experimentation or quick modifications. It's important to note that Colaboratory uses **Python 3.10**, which is incompatible with the **PyTorch version (1.6)** required by **Nuke 13**.
+
+For those targetting **Nuke 14** or **15**, [Google Colaboratory](https://colab.research.google.com) is a convenient choice.
+
+### Local Compilation (Required for Nuke 13+)
+
+Compiling the model locally gives you full control over the versions of **Python**, **PyTorch**, and **CUDA** you use. Setting up older versions, however, can be challenging.
+
+For **Nuke 13**, which requires **PyTorch 1.6**, using **Docker** is highly recommended. This recommendation stems from the lack of official PyTorch package support for **CUDA 11**.
+
+Fortunately, Nvidia offers Docker images tailored for various GPUs. The Docker image version **20.07** is specifically suited for **PyTorch 1.6.0 + CUDA 11** requirements.
+
+Access to these images requires registration on [Nvidia's NGC Catalog](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch).
+
+Once Docker is installed on your system, execute the following command to initiate a terminal within the required environment. You can then clone the repository and run `python sam_nuke.py` to compile the model.
+
+```sh
+docker run --gpus all -it --rm nvcr.io/nvidia/pytorch:20.07-py3
+git clone https://github.com/rafaelperez/Segment-Anything-for-Nuke.git
+cd Segment-Anything-for-Nuke
+python sam_nuke.py
+```
+For projects targeting **Nuke 14+**, which requires **PyTorch 1.12**, you can use the following Docker image, version **22.05**:
+
+`docker run --gpus all -it --rm nvcr.io/nvidia/pytorch:22.05-py3`
+
+For more information on selecting the appropriate Python, PyTorch, and CUDA combination, refer to [Nvidia's Framework Containers Support Matrix](https://docs.nvidia.com/deeplearning/frameworks/support-matrix/index.html#framework-matrix-2020).
 
 ## License and Acknowledgments
 
