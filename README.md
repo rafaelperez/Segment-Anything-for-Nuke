@@ -49,7 +49,7 @@ nuke.pluginAddPath('./Cattery/SegmentAnything')
 ``` py
 import nuke
 toolbar = nuke.menu("Nodes")
-toolbar.addCommand('Cattery/Optical Flow/SegmentAnything', 'nuke.createNode("SegmentAnything")', icon="SAM.png")
+toolbar.addCommand('Cattery/Segmentation/SegmentAnything', 'nuke.createNode("SAM")', icon="SAM.png")
 ```
 
 ## Compiling the Model

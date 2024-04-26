@@ -6,7 +6,7 @@
     "cats": [
         {
             "filepath": "SAM.gizmo",
-            "name": "Segment Anything",
+            "name": "SegmentAnything",
             "icon": "SAM.png"
         }
     ]

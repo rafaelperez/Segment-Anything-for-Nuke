@@ -21,7 +21,7 @@ addUserKnob {26 overlay_controls l "<b>Overlay Controls</b>"}
 addUserKnob {41 white l "Overlay Colors" T Grade_Overlay.white}
 addUserKnob {41 disableOverlay l "Disable Overlay" T Grade_Overlay.disable}
 addUserKnob {26 preprocessing l <b>Pre-Processing</b>}
-addUserKnob {22 export_encoded_matte l "Export Encoded Matte" t "\t" T "sam_node = nuke.thisNode()\nsam_node.knob(\"view\").setValue(\"Encoded Matte\")\nwith nuke.root():\n  sam_node.setSelected(False)\n  text = nuke.createNode(\"Text2\", inpanel=False)\n  text.knob(\"message\").setValue(\"SAM - ENCODED MATTE\\ndetail level: \[metadata sam/detailLevel]\\nsource: \[file tail \[value \[topnode].file]]\")\n  text.knob(\"output\").setValue(\"rgb\")\n  text.knob(\"global_font_scale\").setValue(0.25)\n  text.knob(\"box\").setValue(\[128, 128, 1024, 1024])\n  text.knob(\"leading\").setValue(0.2)\n  text.knob(\"yjustify\").setValue(\"bottom\")\n  text.knob(\"enable_background\").setValue(True)\n  text.knob(\"background_color\").setValue(\[1, 0, 0, 1])\n  text.knob(\"background_border_x\").setValue(1024)\n  text.knob(\"background_border_y\").setValue(24)\n  text.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 60)\n  text.setInput(0, sam_node)\n  try:\n    text.knob(\"font\").setValue(\"Arial\", \"Regular\")\n  except ValueError:\n    pass\n  write = nuke.createNode(\"Write\", inpanel=False)\n  write.knob(\"channels\").setValue(\"rgba\")\n  write.knob(\"file_type\").setValue(\"exr\")\n  write.knob(\"datatype\").setValue(\"32 bit float\")\n  write.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 120)\n  write.setInput(0, text)\n  sam_node.setSelected(True)\n" +STARTLINE}
+addUserKnob {22 export_encoded_matte l "Export Encoded Matte" t "\t" T "sam_node = nuke.thisNode()\nsam_node.knob(\"view\").setValue(\"Encoded Matte\")\nwith nuke.root():\n  sam_node.setSelected(False)\n  text = nuke.createNode(\"Text2\", inpanel=False)\n  text.knob(\"message\").setValue(\"SAM - ENCODED MATTE\\ndetail level: \[metadata sam/detailLevel]\\nsource: \[file tail \[value \[topnode].file]]\")\n  text.knob(\"output\").setValue(\"rgb\")\n  text.knob(\"global_font_scale\").setValue(0.25)\n  text.knob(\"box\").setValue(\[128, 128, 1024, 1024])\n  text.knob(\"leading\").setValue(0.2)\n  text.knob(\"yjustify\").setValue(\"bottom\")\n  text.knob(\"enable_background\").setValue(True)\n  text.knob(\"background_color\").setValue(\[1, 0, 0, 1])\n  text.knob(\"background_border_x\").setValue(1024)\n  text.knob(\"background_border_y\").setValue(24)\n  text.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 60)\n  text.setInput(0, sam_node)\n  try:\n    text.knob(\"font\").setValue(\"Arial\", \"Regular\")\n  except ValueError:\n    pass\n  write = nuke.createNode(\"Write\", inpanel=False)\n  write.knob(\"channels\").setValue(\"rgba\")\n  write.knob(\"file_type\").setValue(\"exr\")\n  write.knob(\"datatype\").setValue(\"32 bit float\")\n  write.knob(\"metadata\").setValue(\"all metadata\")\n  write.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 120)\n  write.setInput(0, text)\n  sam_node.setSelected(True)\n" +STARTLINE}
 addUserKnob {20 tracker l Tracker}
 addUserKnob {26 "" l <b>General</b>}
 addUserKnob {41 channels l "track channels" T Tracker1.channels}
@@ -97,20 +97,19 @@ xpos 730
 ypos -832
 disable {{"!\[exists parent.input1]"}}
 }
-set Nf4b08f80 [stack 0]
 Dot {
 name Dot5
 xpos 764
 ypos -390
 }
-set Nddf28490 [stack 0]
+set N1bb6b230 [stack 0]
 Input {
 inputs 0
 name img
 xpos 510
 ypos -1114
 }
-set N808d07d0 [stack 0]
+set N18ef0360 [stack 0]
 Assert {
 expression {{"\$nuke_version > 13.2"}}
 message "Nuke13.2 or higher required."
@@ -138,7 +137,7 @@ name Dot4
 xpos 544
 ypos -606
 }
-set Ne2b51a90 [stack 0]
+set N1c4998d0 [stack 0]
 Reformat {
 format "1024 1024 0 0 1024 1024 1 square_1K"
 box_width 1024
@@ -161,7 +160,7 @@ name Dot3
 xpos 654
 ypos -462
 }
-set Neb60060 [stack 0]
+set N2116db80 [stack 0]
 Dot {
 name Dot1
 xpos 874
@@ -182,7 +181,21 @@ name Switch2
 xpos 840
 ypos -274
 }
-set Ne20dd560 [stack 0]
+Crop {
+box {0 -16 1024 1024}
+reformat true
+intersect true
+crop false
+name Crop3
+xpos 840
+ypos -178
+}
+BlackOutside {
+name BlackOutside2
+xpos 840
+ypos -130
+}
+set N12af89e0 [stack 0]
 Dot {
 name Dot8
 xpos 984
@@ -353,22 +366,8 @@ name Reformat5
 xpos 290
 ypos -250
 }
-set N1071aac0 [stack 0]
-push $Ne20dd560
-Crop {
-box {0 -16 1024 1024}
-reformat true
-intersect true
-crop false
-name Crop3
-xpos 840
-ypos -178
-}
-BlackOutside {
-name BlackOutside2
-xpos 840
-ypos -130
-}
+set N18e30510 [stack 0]
+push $N12af89e0
 Merge2 {
 inputs 2
 operation plus
@@ -400,8 +399,8 @@ name Copy3
 xpos 840
 ypos 104
 }
-push $Nddf28490
-push $Neb60060
+push $N1bb6b230
+push $N2116db80
 Inference {
 modelFile "\[lsearch -inline \[plugins -all sam_encoder_small.cat] *.cat]"
 serialiseKnob {}
@@ -417,19 +416,6 @@ name Switch1
 xpos 620
 ypos -274
 }
-set Ne868b450 [stack 0]
-Dot {
-name Dot7
-xpos 764
-ypos -198
-}
-Dot {
-name Dot6
-xpos 764
-ypos 66
-}
-push $N1071aac0
-push $Ne868b450
 Crop {
 box {0 -16 1024 1024}
 reformat true
@@ -444,6 +430,19 @@ name BlackOutside1
 xpos 620
 ypos -130
 }
+set N23ad1670 [stack 0]
+Dot {
+name Dot7
+xpos 764
+ypos -198
+}
+Dot {
+name Dot6
+xpos 764
+ypos 66
+}
+push $N18e30510
+push $N23ad1670
 Merge2 {
 inputs 2
 operation plus
@@ -491,7 +490,7 @@ name Crop6
 xpos 620
 ypos 278
 }
-set Ndd588100 [stack 0]
+set N1fe7dd60 [stack 0]
 Reformat {
 type "to box"
 box_width {{parent.width}}
@@ -502,8 +501,8 @@ name Reformat2
 xpos 620
 ypos 326
 }
-push $Ndd588100
-push $Ne2b51a90
+push $N1fe7dd60
+push $N1c4998d0
 Copy {
 inputs 2
 from0 mask.a
@@ -534,7 +533,7 @@ xpos 510
 ypos 488
 }
 Crop {
-box {0 16 1024 1040}
+box {0 0 1024 1024}
 reformat true
 intersect true
 crop false
@@ -589,7 +588,7 @@ label "<left><h3>Ugly hack</h3>\n\nIt's not the prettiest solution, but other me
 xpos -38
 ypos -881
 }
-push $N808d07d0
+push $N18ef0360
 Tracker4 {
 adjust_for_luminance_changes true
 keyframe_display 3
