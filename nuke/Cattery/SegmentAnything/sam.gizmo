@@ -2,68 +2,68 @@ Group {
 name SegmentAnything
 addUserKnob {20 SegmentAnythingTab l "Segment Anything" t "Segment Anything"}
 addUserKnob {26 outputOptions_divider l "<b>Output Options</b>"}
-addUserKnob {4 view l View M {"Final Result" "Encoded Matte" "" "" ""}}
-addUserKnob {6 detail_control l "Fast mode" +STARTLINE}
+addUserKnob {4 view l View t "Determines the output of the node.\n\n<strong>Final Result:</strong> Generates the matte as an alpha channel.\n\n<strong>Encoded Matte:</strong> Outputs a pre-processed matte that can be used as an input to speed up interactivity. \n\nThe same encoded matte can be connected to multiple SegmentAnything nodes for selecting different objects in the same scene." M {"Final Result" "Encoded Matte" "" "" "" "" "" "" ""}}
+addUserKnob {6 detail_control l "Fast mode" t "Speeds up processing and reduces memory usage at the cost of a lower quality model." +STARTLINE}
 detail_control true
 addUserKnob {6 detail l "Detail level" +INVISIBLE +STARTLINE}
 detail {{"\[\n    if \[exists this.input1] \{\n        if \[string equal \[metadata -n \[node this.input1] exr/nuke/sam/detailLevel] high] \{\n            return 0\n        \} else \{\n            return 1;\n        \}\n    \} else \{\n        return \[value detail_control]\n    \}\n]"}}
-addUserKnob {6 bypass_srgb l "Bypass sRGB conversion" +STARTLINE}
+addUserKnob {6 bypass_srgb l "Bypass sRGB conversion" t "SegmentAnything expects sRGB images for optimal results. Enable this option to use your own color space conversion." +STARTLINE}
 addUserKnob {26 _1 l "<b>Control Points</b>"}
-addUserKnob {22 addPoint l "Add Point" T sam.add_point() +STARTLINE}
-addUserKnob {22 removePoint l "Remove Point" -STARTLINE T sam.remove_point()}
-addUserKnob {22 resetAllPoints l "Reset All" -STARTLINE T sam.reset_points()}
+addUserKnob {22 addPoint l "Add Point" t "Adds a selection point (up to 8 points supported)." T sam.add_point() +STARTLINE}
+addUserKnob {22 removePoint l "Remove Point" t "Removes the last added selection point." -STARTLINE T sam.remove_point()}
+addUserKnob {22 resetAllPoints l "Reset All" t "Clears all selection points." -STARTLINE T sam.reset_points()}
 addUserKnob {26 point_01_l l "Point 1" T " "}
 addUserKnob {12 point_01 l "" -STARTLINE}
 addUserKnob {6 point_01_e l enabled -STARTLINE}
 point_01_e true
-addUserKnob {6 point_01_s l subtractive -STARTLINE}
+addUserKnob {6 point_01_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE}
 addUserKnob {26 point_02_l l "Point 2" T " "}
 addUserKnob {12 point_02 l "" -STARTLINE}
 point_02 {0 25}
 addUserKnob {6 point_02_e l enabled -STARTLINE}
 point_02_e true
-addUserKnob {6 point_02_s l subtractive -STARTLINE}
+addUserKnob {6 point_02_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE}
 addUserKnob {26 point_03_l l "Point 3" T " "}
 addUserKnob {12 point_03 l "" -STARTLINE}
 point_03 {0 50}
 addUserKnob {6 point_03_e l enabled -STARTLINE}
 point_03_e true
-addUserKnob {6 point_03_s l subtractive -STARTLINE}
+addUserKnob {6 point_03_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE}
 addUserKnob {26 point_04_l l "Point 4" T " "}
 addUserKnob {12 point_04 l "" -STARTLINE}
 point_04 {0 75}
 addUserKnob {6 point_04_e l enabled -STARTLINE}
 point_04_e true
-addUserKnob {6 point_04_s l subtractive -STARTLINE}
+addUserKnob {6 point_04_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE}
 addUserKnob {26 point_05_l l "Point 5" +HIDDEN T " "}
 addUserKnob {12 point_05 l "" -STARTLINE +HIDDEN}
 point_05 {0 100}
 addUserKnob {6 point_05_e l enabled -STARTLINE +HIDDEN}
 point_05_e true
-addUserKnob {6 point_05_s l subtractive -STARTLINE +HIDDEN}
+addUserKnob {6 point_05_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE +HIDDEN}
 addUserKnob {26 point_06_l l "Point 6" +HIDDEN T " "}
 addUserKnob {12 point_06 l "" -STARTLINE +HIDDEN}
 point_06 {0 125}
 addUserKnob {6 point_06_e l enabled -STARTLINE +HIDDEN}
 point_06_e true
-addUserKnob {6 point_06_s l subtractive -STARTLINE +HIDDEN}
+addUserKnob {6 point_06_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE +HIDDEN}
 addUserKnob {26 point_07_l l "Point 7" +HIDDEN T " "}
 addUserKnob {12 point_07 l "" -STARTLINE +HIDDEN}
 point_07 {0 150}
 addUserKnob {6 point_07_e l enabled -STARTLINE +HIDDEN}
 point_07_e true
-addUserKnob {6 point_07_s l subtractive -STARTLINE +HIDDEN}
+addUserKnob {6 point_07_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE +HIDDEN}
 addUserKnob {26 point_08_l l "Point 8" +HIDDEN T " "}
 addUserKnob {12 point_08 l "" -STARTLINE +HIDDEN}
 point_08 {0 175}
 addUserKnob {6 point_08_e l enabled -STARTLINE +HIDDEN}
 point_08_e true
-addUserKnob {6 point_08_s l subtractive -STARTLINE +HIDDEN}
+addUserKnob {6 point_08_s l subtractive t "\n<strong>Subtractive mode:</strong> Excludes an area from the matte. \n\nUse this only if the initial selection spills over into an unwanted region. \n\nFor better results, create a separate selection for the unwanted object and mask it from the original.\n" -STARTLINE +HIDDEN}
 addUserKnob {26 overlay_controls l "<b>Overlay Controls</b>"}
-addUserKnob {41 white l "Overlay Colors" T Grade_Overlay.white}
-addUserKnob {41 disableOverlay l "Disable Overlay" T Grade_Overlay.disable}
+addUserKnob {41 white l "Overlay Colors" t "Adjusts the mask overlay color." T Grade_Overlay.white}
+addUserKnob {41 disableOverlay l "Disable Overlay" t "Turns off the matte overlay." T Grade_Overlay.disable}
 addUserKnob {26 preprocessing l <b>Pre-Processing</b>}
-addUserKnob {22 export_encoded_matte l "Export Encoded Matte" t "\t" T "sam_node = nuke.thisNode()\nsam_node.knob(\"view\").setValue(\"Encoded Matte\")\nwith nuke.root():\n  sam_node.setSelected(False)\n  text = nuke.createNode(\"Text2\", inpanel=False)\n  text.knob(\"message\").setValue(\"SAM - ENCODED MATTE\\ndetail level: \[metadata sam/detailLevel]\\nsource: \[file tail \[value \[topnode].file]]\")\n  text.knob(\"output\").setValue(\"rgb\")\n  text.knob(\"global_font_scale\").setValue(0.25)\n  text.knob(\"box\").setValue(\[128, 128, 1024, 1024])\n  text.knob(\"leading\").setValue(0.2)\n  text.knob(\"yjustify\").setValue(\"bottom\")\n  text.knob(\"enable_background\").setValue(True)\n  text.knob(\"background_color\").setValue(\[1, 0, 0, 1])\n  text.knob(\"background_border_x\").setValue(1024)\n  text.knob(\"background_border_y\").setValue(24)\n  text.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 60)\n  text.setInput(0, sam_node)\n  try:\n    text.knob(\"font\").setValue(\"Arial\", \"Regular\")\n  except ValueError:\n    pass\n  write = nuke.createNode(\"Write\", inpanel=False)\n  write.knob(\"channels\").setValue(\"rgba\")\n  write.knob(\"file_type\").setValue(\"exr\")\n  write.knob(\"datatype\").setValue(\"32 bit float\")\n  write.knob(\"metadata\").setValue(\"all metadata\")\n  write.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 120)\n  write.setInput(0, text)\n  sam_node.setSelected(True)\n" +STARTLINE}
+addUserKnob {22 export_encoded_matte l "Export Encoded Matte" t "Creates a <b>Write</b> node and sets the output to <b>Encoded Matte</b> . \n\nThe rendered matte can be connected to this node&#39;s second input to significantly improve interactivity.\n" T "sam_node = nuke.thisNode()\nsam_node.knob(\"view\").setValue(\"Encoded Matte\")\nwith nuke.root():\n  sam_node.setSelected(False)\n  text = nuke.createNode(\"Text2\", inpanel=False)\n  text.knob(\"message\").setValue(\"SAM - ENCODED MATTE\\ndetail level: \[metadata sam/detailLevel]\\nsource: \[file tail \[value \[topnode].file]]\")\n  text.knob(\"output\").setValue(\"rgb\")\n  text.knob(\"global_font_scale\").setValue(0.25)\n  text.knob(\"box\").setValue(\[128, 128, 1024, 1024])\n  text.knob(\"leading\").setValue(0.2)\n  text.knob(\"yjustify\").setValue(\"bottom\")\n  text.knob(\"enable_background\").setValue(True)\n  text.knob(\"background_color\").setValue(\[1, 0, 0, 1])\n  text.knob(\"background_border_x\").setValue(1024)\n  text.knob(\"background_border_y\").setValue(24)\n  text.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 60)\n  text.setInput(0, sam_node)\n  try:\n    text.knob(\"font\").setValue(\"Arial\", \"Regular\")\n  except ValueError:\n    pass\n  write = nuke.createNode(\"Write\", inpanel=False)\n  write.knob(\"channels\").setValue(\"rgba\")\n  write.knob(\"file_type\").setValue(\"exr\")\n  write.knob(\"datatype\").setValue(\"32 bit float\")\n  write.knob(\"metadata\").setValue(\"all metadata\")\n  write.setXYpos(sam_node.xpos() + 60, sam_node.ypos() + 120)\n  write.setInput(0, text)\n  sam_node.setSelected(True)\n" +STARTLINE}
 addUserKnob {20 "" n -1}
 addUserKnob {20 infoTab l Info}
 addUserKnob {26 toolName l "" +STARTLINE T "<font size='7'>SEGMENT ANYTHING</font><br>v1.0.0 | Released 2024-04-16"}
