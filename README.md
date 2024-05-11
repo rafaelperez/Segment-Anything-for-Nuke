@@ -38,6 +38,8 @@ With this implementation, you gain access to cutting-edge object segmentation ca
 
 ## Options
 
+![node_options](https://github.com/rafaelperez/Segment-Anything-for-Nuke/assets/1684365/6ae0e629-6cc6-46a0-8453-78a0a0933f35)
+
 - **View**: Determines the output of the node.
   - **Final Result:** Generates the matte as an alpha channel.
   - **Encoded Matte:** Outputs a pre-processed matte that can be used as an input to speed up interactivity. The same encoded matte can be connected to multiple SegmentAnything nodes for selecting different objects in the same scene.
