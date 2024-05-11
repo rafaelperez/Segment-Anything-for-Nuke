@@ -36,6 +36,30 @@ With this implementation, you gain access to cutting-edge object segmentation ca
 
 **Segment Anything** will then be accessible under the toolbar at **Cattery > Segmentation > SegmentAnything**.
 
+## Options
+
+- **View**: Determines the output of the node.
+  - **Final Result:** Generates the matte as an alpha channel.
+  - **Encoded Matte:** Outputs a pre-processed matte that can be used as an input to speed up interactivity. The same encoded matte can be connected to multiple SegmentAnything nodes for selecting different objects in the same scene.
+
+- **Fast Mode:** Speeds up processing and reduces memory usage at the cost of a lower quality model.
+
+- **Bypass sRGB conversion:** SegmentAnything expects sRGB images for optimal results. Enable this option to use your own color space conversion.
+
+- **Add Point:** Adds a selection point (up to 8 points supported).
+
+- **Remove Point:** Removes the last added selection point.
+
+- **Reset All:** Clears all selection points.
+
+- **Subtractive mode:** Excludes an area from the matte. Use this only if the initial selection spills over into an unwanted region. For better results, create a separate selection for the unwanted object and mask it from the original.
+
+- **Overlay Color:** Adjusts the mask overlay color.
+
+- **Disable Overlay:** Turns off the matte overlay.
+
+- **Export Encoded Matte:** Creates a `Write` node and sets the output to `Encoded Matte`. The rendered matte can be connected to this node's second input to significantly improve interactivity.
+
 ### ⚠️ Extra Steps for Nuke 13
 
 4. Add the path for **RIFE** to your `init.py`:
